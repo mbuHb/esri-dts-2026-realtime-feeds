@@ -1,0 +1,48 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31912.275
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WPF", "WPF", "{AFB4071E-38D8-4C36-BFED-48AE0A4A3F42}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArcGIS.WPF.Viewer.Net", "WPF\WPF.Viewer\ArcGIS.WPF.Viewer.Net.csproj", "{FE1B81E3-59BE-4632-A1EB-12FF19F4B59A}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "ArcGIS.Samples.Shared", "Samples.Shared\ArcGIS.Samples.Shared.shproj", "{0AD85845-0BA1-4DC9-8C32-E6FD7632E32D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|ARM64 = Debug|ARM64
+		Debug|x64 = Debug|x64
+		Release|Any CPU = Release|Any CPU
+		Release|ARM64 = Release|ARM64
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FE1B81E3-59BE-4632-A1EB-12FF19F4B59A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FE1B81E3-59BE-4632-A1EB-12FF19F4B59A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FE1B81E3-59BE-4632-A1EB-12FF19F4B59A}.Debug|ARM64.ActiveCfg = Debug|ARM64
+		{FE1B81E3-59BE-4632-A1EB-12FF19F4B59A}.Debug|ARM64.Build.0 = Debug|ARM64
+		{FE1B81E3-59BE-4632-A1EB-12FF19F4B59A}.Debug|x64.ActiveCfg = Debug|x64
+		{FE1B81E3-59BE-4632-A1EB-12FF19F4B59A}.Debug|x64.Build.0 = Debug|x64
+		{FE1B81E3-59BE-4632-A1EB-12FF19F4B59A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FE1B81E3-59BE-4632-A1EB-12FF19F4B59A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FE1B81E3-59BE-4632-A1EB-12FF19F4B59A}.Release|ARM64.ActiveCfg = Release|ARM64
+		{FE1B81E3-59BE-4632-A1EB-12FF19F4B59A}.Release|ARM64.Build.0 = Release|ARM64
+		{FE1B81E3-59BE-4632-A1EB-12FF19F4B59A}.Release|x64.ActiveCfg = Release|x64
+		{FE1B81E3-59BE-4632-A1EB-12FF19F4B59A}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{FE1B81E3-59BE-4632-A1EB-12FF19F4B59A} = {AFB4071E-38D8-4C36-BFED-48AE0A4A3F42}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F7243EE6-BDF4-4C46-AEEB-057BC82B116E}
+	EndGlobalSection
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		Samples.Shared\ArcGIS.Samples.Shared.projitems*{0ad85845-0ba1-4dc9-8c32-e6fd7632e32d}*SharedItemsImports = 13
+		Samples.Shared\ArcGIS.Samples.Shared.projitems*{fe1b81e3-59be-4632-a1eb-12ff19f4b59a}*SharedItemsImports = 5
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,83 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows10.0.19041.0</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <UseWindowsForms>true</UseWindowsForms>
+    <RootNamespace>ArcGIS</RootNamespace>
+    <AssemblyName>ArcGIS</AssemblyName>
+    <ApplicationIcon>Assets\ApplicationIcons\windows-desktop-256.ico</ApplicationIcon>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <PublishTrimmed>false</PublishTrimmed>
+    <PublishSingleFile Condition="'$(RuntimeIdentifier)' != ''">true</PublishSingleFile>
+    <Platforms>AnyCPU;x64;ARM64</Platforms>
+    <RuntimeIdentifiers Condition="'$(Platform)'!='' OR '$(Platform)'=='AnyCPU'">win-x64;win-arm64</RuntimeIdentifiers>
+    <RuntimeIdentifier Condition="'$(Platform)'!='' AND '$(Platform)'!='AnyCPU'">win-$(Platform.ToLower())</RuntimeIdentifier>
+    <SupportedOSPlatformVersion>10.0.19041.0</SupportedOSPlatformVersion>
+    <DefineConstants>$(DefineConstants);TRACE;WPF</DefineConstants>
+    <NoWarn>1701;1702;CA1416</NoWarn>
+    <ArcGISLocalServerIgnoreMissingComponent>True</ArcGISLocalServerIgnoreMissingComponent>
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Include="Resources\github-markdown.css">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\hide-header.css">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Resource Include="Assets\**\*.png" />
+    <Resource Include="Assets\**\*.ico" />
+    <EmbeddedResource Include="Resources\PictureMarkerSymbols\*.png" />
+    <Resource Include="Resources\*.png" />
+    <Content Include="Samples\**\*.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="**\*.md" Exclude="bin\**\*.md">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\SyntaxHighlighting\*.*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Remove="readme.md" />
+    <None Remove="App.config" />
+    <None Remove="Resources\github-markdown.css" />
+    <Compile Update="Samples\**\*.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+    <Page Update="Samples\**\*.xaml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Esri.ArcGISRuntime.Hydrography" />
+    <PackageReference Include="Esri.ArcGISRuntime.LocalServices" />
+    <PackageReference Include="Esri.ArcGISRuntime.Toolkit.WPF" />
+    <PackageReference Include="Esri.ArcGISRuntime.WPF" />
+    <PackageReference Include="Esri.Calcite.WPF" />
+    <PackageReference Include="Markdig" />
+    <PackageReference Include="Microsoft.Web.WebView2" />
+    <PackageReference Include="System.Speech" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Converters\*.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+    <Compile Update="Helpers\ArcGISLoginPrompt.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+  </ItemGroup>
+  <!-- Imports -->
+  <Import Project="..\..\Samples.Shared\ArcGIS.Samples.Shared.projitems" Label="Shared" />
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+    <ItemGroup>
+      <XamlFiles Include="$(ProjectDir)**\*.xaml" Exclude="$(ProjectDir)\bin\**\*.xaml;$(ProjectDir)\obj\**\*.xaml" />
+    </ItemGroup>
+    <Copy SourceFiles="@(XamlFiles)" DestinationFolder="$(OutDir)%(RecursiveDir)" SkipUnchangedFiles="True" />
+  </Target>
+</Project>

@@ -1,0 +1,55 @@
+﻿<UserControl x:Class="ArcGIS.WPF.Viewer.SourceCode"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:viewer="clr-namespace:ArcGIS.WPF.Viewer"
+             Background="{StaticResource PrimaryBackgroundColor}">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+        <Grid Background="{StaticResource SecondaryBackgroundColor}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Margin="15,5,5,5"
+                       HorizontalAlignment="Right"
+                       VerticalAlignment="Center"
+                       FontWeight="Bold"
+                       Text="View file:" />
+            <ComboBox Grid.Column="1"
+                      Width="400"
+                      Margin="5"
+                      VerticalAlignment="Center"
+                      ItemsSource="{Binding SourceFiles, Mode=OneWay}"
+                      SelectedItem="{Binding SelectedSourceFile, Mode=TwoWay}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Name}" />
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            <Button x:Name="CopyCodeButton"
+                    Grid.Column="2"
+                    Margin="5,5,20,5"
+                    HorizontalAlignment="Right"
+                    Background="Transparent"
+                    BorderThickness="0"
+                    Click="CopyCodeButton_Click"
+                    ToolTip="Copy code to clipboard"
+                    Style="{x:Null}"
+                    FontFamily="{StaticResource CalciteUIIconsMediumFontFamily}"
+                    FontSize="24"
+                    Content="{StaticResource CalciteUIIcons_Glyph_CopyToClipboard}"/>
+        </Grid>
+        <WebBrowser Grid.Row="1" viewer:BrowserBehavior.Html="{Binding SelectedSourceFile.HtmlContent}" />
+        <StatusBar Grid.Row="2">
+            <StatusBarItem>
+                <TextBlock Text="{Binding SelectedSourceFile.Path, Mode=OneWay}" />
+            </StatusBarItem>
+        </StatusBar>
+    </Grid>
+</UserControl>

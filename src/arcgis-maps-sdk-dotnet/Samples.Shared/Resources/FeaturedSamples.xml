@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<FeaturedSamples>
+	<Categories>
+		<Category name="Accessibility">
+			<Sample>UpdateBasemapForContrastAccessibility</Sample>
+		</Category>
+		<Category name="Analysis">
+			<Sample>ApplyMapAlgebra</Sample>
+			<Sample>DistanceMeasurement</Sample>
+			<Sample>ShowInteractiveViewshedInAnalysisOverlay</Sample>
+			<Sample>ShowLineOfSightAnalysisOnMap</Sample>
+		</Category>
+		<Category name="Data">
+			<Sample>CreateKmlMultiTrack</Sample>
+			<Sample>ManageFeatures</Sample>
+			<Sample>EditFeaturesUsingFeatureForms</Sample>
+		</Category>
+		<Category name="Geometry">
+			<Sample>CreateAndEditGeometries</Sample>
+			<Sample>DisplayGeometryEditorInteractionInformation</Sample>
+			<Sample>EditGeometriesWithProgrammaticReticleTool</Sample>
+			<Sample>SnapGeometryEdits</Sample>
+		</Category>
+		<Category name="Layers">
+			<Sample>Add3dTilesLayer</Sample>
+			<Sample>AddBuildingSceneLayer</Sample>
+			<Sample>AddSceneLayerWithElevation</Sample>
+			<Sample>ApplyRenderersToSceneLayer</Sample>
+			<Sample>ConfigureClusters</Sample>
+			<Sample>ConfigureElectronicNavigationalCharts</Sample>
+			<Sample>AddCustomDynamicEntityDataSource</Sample>
+			<Sample>AddDynamicEntityLayer</Sample>
+			<Sample>AddVectorTiledLayerFromCustomStyle</Sample>
+			<Sample>DisplayClusters</Sample>
+			<Sample>DisplayRouteLayer</Sample>
+			<Sample>FilterBuildingSceneLayer</Sample>
+		</Category>
+		<Category name="Map">
+			<Sample>BrowseBuildingFloors</Sample>
+			<Sample>ChangeBasemap</Sample>
+			<Sample>ConfigureBasemapStyleParameters</Sample>
+			<Sample>DisplayMap</Sample>
+			<Sample>DisplayOverviewMap</Sample>
+			<Sample>CreateDynamicBasemapGallery</Sample>
+			<Sample>SetSpatialReference</Sample>
+		</Category>
+		<Category name="MapView">
+			<Sample>DisplayGrid</Sample>
+		</Category>
+		<Category name="Search">
+			<Sample>QueryDynamicEntities</Sample>
+		</Category>
+		<Category name="Scene">
+			<Sample>ConfigureSceneEnvironment</Sample>
+			<Sample>FilterFeaturesInScene</Sample>
+			<Sample>ShowLabelsOnLayer3D</Sample>
+			<Sample>DisplayLocalScene</Sample>
+		</Category>
+		<Category name="Symbology">
+			<Sample>StyleGeometryTypesWithSymbols</Sample>
+		</Category>
+		<Category name="UtilityNetwork">
+			<Sample>CreateLoadReport</Sample>
+			<Sample>ValidateUtilityNetworkTopology</Sample>
+			<Sample>SnapGeometryEditsWithUtilityNetworkRules</Sample>
+		</Category>
+	</Categories>
+</FeaturedSamples>
