@@ -1,0 +1,42 @@
+﻿<ArcGIS defaultAssembly="DynamicLayerSample.dll" defaultNamespace="DynamicLayerSample" xmlns="http://schemas.esri.com/DADF/Registry" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://schemas.esri.com/DADF/Registry file:///C:/Program%20Files/ArcGIS/Pro/bin/ArcGIS.Desktop.Framework.xsd">
+  <AddInInfo id="{1a5c4c3c-369a-495b-ab9c-1383921bb99c}" version="1.0" desktopVersion="3.5.57366" product="ArcGISPro">
+    <Name>DynamicLayerSample</Name>
+    <Description>DynamicLayerSample description</Description>
+    <Image>Images\AddinDesktop32.png</Image>
+    <Author>MRasiukevicius</Author>
+    <Company>Acme</Company>
+    <Date>9/30/2026 9:00:58 AM</Date>
+    <Subject>Framework</Subject>
+    <!-- Note subject can be one or more of these topics:
+                    Content, Framework, Editing, Geodatabase, Geometry, Geoprocessing, Layouts, Map Authoring, Map Exploration -->
+  </AddInInfo>
+  <modules>
+    <insertModule id="DynamicLayerSample_Module" className="Module1" autoLoad="false" caption="Module1">
+      <!-- uncomment to have the control hosted on a separate tab-->
+      <tabs>
+        <!--<tab id="DynamicLayerSample_Tab1" caption="New Tab">
+          <group refID="DynamicLayerSample_Group1"/>
+        </tab>-->
+      </tabs>
+      <groups>
+        <!-- comment this out if you have no controls on the Addin tab to avoid
+              an empty group-->
+        <group id="DynamicLayerSample_Group1" caption="Group 1" appearsOnAddInTab="true">
+          <!-- host controls within groups -->
+          <button refID="DynamicLayerSample_Controls_Dockpane1_ShowButton" size="large" />
+        </group>
+      </groups>
+      <controls>
+        <!-- add your controls here -->
+        <button id="DynamicLayerSample_Controls_Dockpane1_ShowButton" caption="Dynamic Layer demo" className="DynamicLayerSample.Controls.Dockpane1_ShowButton" loadOnClick="true" smallImage="GenericButtonPurple16" largeImage="GenericButtonPurple32">
+          <tooltip heading="Show Dockpane">Show Dockpane<disabledText /></tooltip>
+        </button>
+      </controls>
+      <dockPanes>
+        <dockPane id="DynamicLayerSample_Controls_Dockpane1" caption="Dynamic Layer demo" className="DynamicLayerSample.Controls.Dockpane1ViewModel" dock="group" dockWith="esri_core_projectDockPane">
+          <content className="DynamicLayerSample.Controls.Dockpane1View" />
+        </dockPane>
+      </dockPanes>
+    </insertModule>
+  </modules>
+</ArcGIS>
