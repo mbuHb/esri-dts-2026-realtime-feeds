@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Real-time alerting in the browser</title>
+    <script type="module" src="https://js.arcgis.com/5.1/"></script>
+    <script type="module" src="app.js"></script>
+    <!-- Syntax highlighting for the code viewer -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/vs2015.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <style>
+      html, body { height: 100%; margin: 0; font-family: Arial, sans-serif; }
+      #viewContainer, arcgis-map, arcgis-scene { height: 100%; }
+      .overlay {
+        position: absolute; z-index: 1; top: 15px; width: 290px; background: #fff; color: #222;
+        padding: 12px 14px; border-radius: 6px; box-shadow: 0 1px 4px rgba(0, 0, 0, .3); font-size: 14px;
+        max-height: calc(100% - 60px); overflow-y: auto; box-sizing: border-box;
+      }
+      .left { left: 15px; }
+      .right { right: 15px; }
+      h1 { font-size: 16px; margin: 0 0 8px; }
+      h2 { font-size: 13px; margin: 14px 0 6px; color: #555; text-transform: uppercase; letter-spacing: .05em; }
+      input, select { width: 100%; box-sizing: border-box; padding: 5px; font-size: 13px; }
+      .row { display: flex; gap: 6px; margin-top: 6px; }
+      .row > * { flex: 1; }
+      button { padding: 6px 4px; cursor: pointer; font-size: 13px; }
+      button[aria-pressed="true"], button.primary { background: #0079c1; color: #fff; border: 1px solid #0079c1; }
+      .fallback { margin-top: 10px; padding-top: 8px; border-top: 1px dashed #ccc; color: #555; font-size: 12px; }
+      dl { display: grid; grid-template-columns: auto 1fr; gap: 4px 10px; margin: 0; }
+      dt { color: #555; }
+      dd { margin: 0; text-align: right; font-variant-numeric: tabular-nums; }
+      svg { width: 100%; height: 50px; display: block; background: #f5f7f9; border-radius: 4px; margin-top: 6px; }
+      .summary table { width: 100%; border-collapse: collapse; margin-top: 8px; }
+      .summary td:last-child { text-align: right; font-variant-numeric: tabular-nums; }
+      .badge {
+        background: #b00020; color: #fff; font-weight: bold; letter-spacing: .08em;
+        padding: 6px 12px; border-radius: 4px; text-align: center; margin-bottom: 10px;
+      }
+      .sources { list-style: none; margin: 0 0 8px; padding: 0; }
+      .sources li { display: flex; justify-content: space-between; align-items: center; gap: 8px; padding: 5px 8px; margin-bottom: 4px; background: #f1f5f9; border-radius: 4px; }
+      .sources li span { display: flex; flex-direction: column; }
+      .sources small { color: #555; }
+      .sources button { flex: none; padding: 2px 7px; }
+      .sources .empty { background: none; color: #777; padding: 0; }
+      .alerts { list-style: none; margin: 0; padding: 0; }
+      .alerts li { padding: 6px 8px; margin-bottom: 6px; border-radius: 4px; border-left: 4px solid; }
+      .alerts li.enter { background: #fdecee; border-color: #b00020; }
+      .alerts li.exit { background: #f1f3f4; border-color: #8c8c8c; }
+      .alerts time { color: #555; font-size: 12px; display: block; }
+      .alerts .empty { border: none; color: #777; padding: 0; }
+      dialog { width: min(900px, 92vw); max-height: 85vh; border: none; border-radius: 8px; padding: 0; overflow: hidden; }
+      dialog header { display: flex; justify-content: space-between; align-items: center; padding: 10px 16px; background: #1e1e1e; color: #fff; }
+      dialog pre { margin: 0; background: #1e1e1e; overflow: auto; max-height: calc(85vh - 50px); }
+      dialog pre code.hljs { padding: 16px; font: 14px/1.5 Consolas, monospace; }
+    </style>
+  </head>
+  <body>
+    <div id="viewContainer"></div>
+
+    <div class="overlay left">
+      <h1>Restricted area monitor</h1>
+
+      <h2>Data source</h2>
+      <label for="serviceUrl">Stream service URL</label>
+      <input id="serviceUrl" type="url" placeholder="https://…/StreamServer" />
+      <div class="row"><button id="connect" class="primary">Add</button></div>
+      <div class="fallback">
+        Fallback: local simulator
+        <div class="row">
+          <select id="localFeed" aria-label="Local feed">
+            <option value="vehicles">Vehicles</option>
+            <option value="drones">Drones</option>
+          </select>
+          <button id="useLocal">Add local</button>
+        </div>
+      </div>
+
+      <h2>On the map</h2>
+      <ul class="sources" id="sources"></ul>
+      <dl>
+        <dt>Observations per second</dt><dd id="rate">0</dd>
+      </dl>
+      <svg viewBox="0 0 60 20" preserveAspectRatio="none" aria-label="Observations per second, last 60 seconds">
+        <polyline id="spark" fill="none" stroke="#0079c1" stroke-width="0.6" points="" />
+      </svg>
+
+      <h2>View</h2>
+      <div class="row">
+        <button data-dimension="2d" aria-pressed="true">2D</button>
+        <button data-dimension="3d">3D</button>
+      </div>
+
+      <h2>Analysis</h2>
+      <div class="row"><button id="summarise">Summarise what is on the map</button></div>
+      <div class="summary" id="summary"></div>
+
+      <div class="row" style="margin-top:14px"><button id="showCode">Show code</button></div>
+    </div>
+
+    <div class="overlay right">
+      <div class="badge">SIMULATED DATA</div>
+      <h1>Alerts</h1>
+      <ul class="alerts" id="alerts"><li class="empty">No alerts yet</li></ul>
+    </div>
+
+    <dialog id="codeDialog">
+      <header>
+        <strong>alerting.js</strong>
+        <form method="dialog"><button>Close</button></form>
+      </header>
+      <pre><code id="code" class="language-javascript"></code></pre>
+    </dialog>
+  </body>
+</html>
