@@ -16,6 +16,8 @@ using System.Windows.Media.Imaging;
 using MessageBox = ArcGIS.Desktop.Framework.Dialogs.MessageBox;
 using QueryFilter = ArcGIS.Core.Data.QueryFilter;
 using DynamicLayerSample.Models;
+using ArcGIS.Core.Data.Realtime;
+using System.Windows.Shapes;
 
 namespace DynamicLayerSample.Controls
 {
@@ -37,6 +39,7 @@ namespace DynamicLayerSample.Controls
         private System.Threading.CancellationTokenSource _trackingCancellationTokenSource;
         private HashSet<string> _trackedViolations;
         private FeatureLayer _violationLayer;
+        private RealtimeCursor _rtc;
 
         protected Dockpane1ViewModel() 
         {
@@ -462,6 +465,39 @@ namespace DynamicLayerSample.Controls
                 catch (Exception ex)
                 {
                     System.Diagnostics.Debug.WriteLine($"Error updating alerts: {ex.Message}");
+                }
+            });
+        }
+        #endregion
+
+        #region UpdateAlertsAsyncAlternative
+        private async Task UpdateWehicleAlertsAsync()
+        {
+            RealtimeFeatureClass rtfc = _publicTransportLayer.GetFeatureClass();
+            SpatialQueryFilter sf = new SpatialQueryFilter()
+            {
+                WhereClause = "Speed > 30",
+                //FilterGeometry = new Polygon(...)
+            };
+            await QueuedTask.Run(async () =>
+            {
+                _rtc = rtfc.Subscribe(sf, true);
+
+                while (await _rtc.WaitForRowsAsync())
+                {
+                    while (_rtc.MoveNext())
+                    {
+                        switch(_rtc.Current.GetRowSource())
+                        {
+                            case RealtimeRowSource.EventInsert:
+                                RealtimeFeature rtf = _rtc.Current as RealtimeFeature;
+                                var vehicleID = rtf["VehicleID"].ToString();
+                                // Do something...
+                                continue;
+                            default:
+                                continue;
+                        }
+                    }
                 }
             });
         }
