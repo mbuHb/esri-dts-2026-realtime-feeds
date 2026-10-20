@@ -19,10 +19,12 @@ function isSimulator(dir) {
 }
 
 function findSimulator() {
+  // SIMULATOR_DIR may be relative: it is resolved against the demo folder, where .env lives.
+  // Otherwise look next to the repository: <parent>/arcgis-velocity-simulator.
   const candidates = [
-    process.env.SIMULATOR_DIR,
-    resolve(here, "../../../arcgis-velocity-simulator"),
-    resolve(here, "../../../arcgis-velocity-simulator/arcgis-velocity-simulator"),
+    process.env.SIMULATOR_DIR && resolve(here, "..", process.env.SIMULATOR_DIR),
+    resolve(here, "../../../../../arcgis-velocity-simulator"),
+    resolve(here, "../../../../../arcgis-velocity-simulator/arcgis-velocity-simulator"),
   ].filter(Boolean);
   const found = candidates.find(isSimulator);
   if (!found) {
